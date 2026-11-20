@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntelliDesk | Tickets</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #080b1a;
+            color: white;
+        }
+
+        .sidebar {
+            position: fixed;
+            width: 240px;
+            height: 100vh;
+            padding: 30px 20px;
+            background: #10152a;
+            border-right: 1px solid #252b45;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: #a78bfa;
+            margin-bottom: 45px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 15px;
+            margin-bottom: 10px;
+            color: #a1a1aa;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #29204b;
+            color: #c4b5fd;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 35px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        h1 { margin: 0; font-size: 28px; }
+
+        .subtitle {
+            color: #a1a1aa;
+            margin-top: 10px;
+        }
+
+        button, select, input {
+            font: inherit;
+        }
+
+        .primary-btn {
+            padding: 12px 20px;
+            background: linear-gradient(90deg, #7c3aed, #06b6d4);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+        .card {
+            padding: 25px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 25px;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 15px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 13px;
+            background: #10152a;
+            color: white;
+            border: 1px solid #353952;
+            border-radius: 9px;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #8b5cf6;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 750px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 17px 12px;
+            border-bottom: 1px solid #292d42;
+        }
+
+        th { color: #a78bfa; }
+
+        .priority {
+            font-weight: bold;
+        }
+
+        .critical { color: #f87171; }
+        .high { color: #fb923c; }
+        .medium { color: #fbbf24; }
+        .low { color: #4ade80; }
+
+        .status {
+            color: #c4b5fd;
+        }
+
+        .message {
+            color: #a1a1aa;
+            padding: 15px 0;
+        }
+
+        .error { color: #f87171; }
+
+        @media(max-width: 1000px) {
+            .filters {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width: 650px) {
+    .sidebar {
+        display: flex;
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 15px;
+        flex-direction: column;
+        border-right: none;
+        border-bottom: 1px solid #252b45;
+    }
+
+    .logo {
+        margin-bottom: 15px;
+    }
+
+    .nav-item {
+        padding: 12px;
+        margin-bottom: 5px;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .filters {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+    <div class="logo">IntelliDesk</div>
+
+    <a class="nav-item" href="/dashboard.html">Dashboard</a>
+    <a class="nav-item" href="/raise-complaint.html">＋ Raise Complaint</a>
+    <a class="nav-item active" href="/tickets.html">Tickets</a>
+    <a class="nav-item" href="/incidents.html">Incidents</a>
+    <a class="nav-item" href="/feedback.html">Feedback</a>
+    <a class="nav-item" href="/analytics.html">Analytics</a>
+</aside>
+
+    <main class="main">
+
+        <header class="header">
+            <div>
+                <h1>Ticket Management</h1>
+                <p class="subtitle">
+                    Monitor, search and manage IT support complaints.
+                </p>
+            </div>
+
+            <button class="primary-btn" id="refreshButton">
+                ↻ Refresh Tickets
+            </button>
+        </header>
+
+        <section class="card">
+            <h2>Find Tickets</h2>
+
+            <div class="filters">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by ticket ID or category..."
+                >
+
+                <select id="statusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="Open">Open</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Closed">Closed</option>
+                </select>
+
+                <select id="priorityFilter">
+                    <option value="">All Priorities</option>
+                    <option value="Critical">Critical</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+
+                <button class="primary-btn" id="clearButton">
+                    Clear
+                </button>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>All Support Tickets</h2>
+
+            <p id="ticketCount" class="subtitle">
+                Loading tickets...
+            </p>
+
+            <p id="errorMessage" class="error"></p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Assigned Team</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="ticketTable">
+                        <tr>
+                            <td colspan="5">Loading tickets...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script type="module" src="/src/pages/tickets.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntelliDesk | Feedback Management</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #080b1a;
+            color: white;
+        }
+
+        .sidebar {
+            position: fixed;
+            width: 240px;
+            height: 100vh;
+            padding: 30px 20px;
+            background: #10152a;
+            border-right: 1px solid #252b45;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: #a78bfa;
+            margin-bottom: 45px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 15px;
+            margin-bottom: 10px;
+            color: #a1a1aa;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #29204b;
+            color: #c4b5fd;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 35px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #a1a1aa;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: linear-gradient(90deg, #7c3aed, #06b6d4);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            padding: 25px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .card p {
+            color: #a1a1aa;
+        }
+
+        .number {
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #292d42;
+        }
+
+        th {
+            color: #a78bfa;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .success {
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        .failure {
+            color: #f87171;
+            font-weight: bold;
+        }
+
+        .message {
+            color: #a1a1aa;
+            margin-top: 15px;
+        }
+
+        .error {
+            color: #f87171;
+        }
+
+        /* Feedback form */
+
+        .feedback-form {
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .form-group label {
+            color: #c4b5fd;
+            font-weight: bold;
+        }
+
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px;
+            background: #151a30;
+            color: white;
+            border: 1px solid #393653;
+            border-radius: 9px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: 1px solid #a78bfa;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        #submitFeedbackButton {
+            margin-top: 20px;
+        }
+
+        @media(max-width: 900px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 650px) {
+            .sidebar {
+                display: flex;
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 15px;
+                flex-direction: column;
+                border-right: none;
+                border-bottom: 1px solid #252b45;
+            }
+
+            .logo {
+                margin-bottom: 15px;
+            }
+
+            .nav-item {
+                padding: 12px;
+                margin-bottom: 5px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">IntelliDesk</div>
+
+        <a href="/dashboard.html" class="nav-item">Dashboard</a>
+        <a href="/raise-complaint.html" class="nav-item">＋ Raise Complaint</a>
+        <a href="/tickets.html" class="nav-item">Tickets</a>
+        <a href="/incidents.html" class="nav-item">Incidents</a>
+        <a href="/feedback.html" class="nav-item active">Feedback</a>
+        <a href="/analytics.html" class="nav-item">Analytics</a>
+
+    </aside>
+
+    <main class="main">
+
+        <!-- Header -->
+        <header class="header">
+
+            <div>
+                <h1>Feedback Management</h1>
+
+                <p class="subtitle">
+                    Evaluate AI recommendations and solution effectiveness.
+                </p>
+            </div>
+
+            <button id="refreshButton">
+                ↻ Refresh Feedback
+            </button>
+
+        </header>
+
+        <!-- Statistics -->
+        <section class="stats">
+
+            <div class="card">
+                <p>Total Feedback</p>
+                <div class="number" id="totalFeedback">--</div>
+            </div>
+
+            <div class="card">
+                <p>Resolved Complaints</p>
+                <div class="number success" id="resolvedFeedback">--</div>
+            </div>
+
+            <div class="card">
+                <p>Unresolved Complaints</p>
+                <div class="number failure" id="unresolvedFeedback">--</div>
+            </div>
+
+        </section>
+
+        <!-- Submit Feedback Form -->
+        <section class="card section feedback-form">
+
+            <h2>Submit User Feedback</h2>
+
+            <p class="subtitle">
+                Tell us whether the recommended solution resolved your complaint.
+            </p>
+
+            <form id="feedbackForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="ticketSelect">
+                            Resolved Ticket
+                        </label>
+
+                        <select id="ticketSelect" required>
+                            <option value="">
+                                Loading resolved tickets...
+                            </option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="solutionSelect">
+                            Recommended Solution
+                        </label>
+
+                        <select id="solutionSelect">
+                            <option value="">
+                                No specific solution
+                            </option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="resolvedSelect">
+                            Did the solution resolve your issue?
+                        </label>
+
+                        <select id="resolvedSelect" required>
+
+                            <option value="">
+                                Select your answer
+                            </option>
+
+                            <option value="true">
+                                Yes, resolved
+                            </option>
+
+                            <option value="false">
+                                No, not resolved
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group full-width">
+
+                        <label for="commentsInput">
+                            Additional Comments
+                        </label>
+
+                        <textarea
+                            id="commentsInput"
+                            placeholder="Share your experience or suggestions..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+                <button type="submit" id="submitFeedbackButton">
+                    Submit Feedback
+                </button>
+
+                <p id="submissionMessage" class="message"></p>
+
+            </form>
+
+        </section>
+
+        <!-- Solution Effectiveness -->
+        <section class="card section">
+
+            <h2>Solution Effectiveness</h2>
+
+            <p class="subtitle">
+                Success rates based on submitted user feedback.
+            </p>
+
+            <p id="effectivenessMessage" class="message">
+                Loading solution effectiveness...
+            </p>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Solution ID</th>
+                            <th>Total Feedback</th>
+                            <th>Resolved</th>
+                            <th>Not Resolved</th>
+                            <th>Success Rate</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="effectivenessTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- Recent Feedback -->
+        <section class="card section">
+
+            <h2>Recent User Feedback</h2>
+
+            <p id="feedbackMessage" class="message">
+                Loading feedback...
+            </p>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Solution ID</th>
+                            <th>Result</th>
+                            <th>Comments</th>
+                            <th>Submitted At</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="feedbackTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script type="module" src="/src/pages/feedback.js"></script>
+
+</body>
+</html>

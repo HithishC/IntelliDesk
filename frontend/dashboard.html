@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntelliDesk | Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #080b1a;
+            color: white;
+        }
+
+        .sidebar {
+            position: fixed;
+            width: 240px;
+            height: 100vh;
+            padding: 30px 20px;
+            background: #10152a;
+            border-right: 1px solid #252b45;
+        }
+
+        .logo {
+            color: #a78bfa;
+            font-size: 27px;
+            font-weight: bold;
+            margin-bottom: 45px;
+        }
+
+        .nav-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            color: #a1a1aa;
+        }
+
+        .nav-item.active {
+            background: #29204b;
+            color: #c4b5fd;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 35px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            color: #a1a1aa;
+        }
+
+        .logout {
+            padding: 12px 20px;
+            background: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            padding: 25px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .card p {
+            color: #a1a1aa;
+        }
+
+        .number {
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .section {
+            margin-top: 30px;
+        }
+
+        .section h2 {
+            font-size: 20px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #292d42;
+        }
+
+        th {
+            color: #a78bfa;
+        }
+
+        .status {
+            color: #fbbf24;
+        }
+
+        .error {
+            color: #f87171;
+            margin-top: 15px;
+        }
+
+        @media(max-width: 1000px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 650px) {
+    .sidebar {
+        display: flex;
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 15px;
+        flex-direction: column;
+        border-right: none;
+        border-bottom: 1px solid #252b45;
+    }
+
+    .logo {
+        margin-bottom: 15px;
+    }
+
+    .nav-item {
+        padding: 12px;
+        margin-bottom: 5px;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+        .nav-item {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+}
+    </style>
+</head>
+
+<body>
+
+
+<aside class="sidebar">
+    <div class="logo">IntelliDesk</div>
+
+    <a href="/dashboard.html" class="nav-item active">Dashboard</a>
+    <a href="/raise-complaint.html" class="nav-item">＋ Raise Complaint</a>
+    <a href="/tickets.html" class="nav-item">Tickets</a>
+    <a href="/incidents.html" class="nav-item">Incidents</a>
+    <a href="/feedback.html" class="nav-item">Feedback</a>
+    <a href="/analytics.html" class="nav-item">Analytics</a>
+</aside>
+
+
+    <main class="main">
+
+        <header class="header">
+            <div>
+                <h1>Dashboard Overview</h1>
+                <p>AI Incident Intelligence System | ZERITH</p>
+            </div>
+
+            <button class="logout" id="logoutButton">Logout</button>
+        </header>
+
+        <div class="stats">
+
+            <div class="card">
+                <p>Total Tickets</p>
+                <div class="number" id="totalTickets">--</div>
+            </div>
+
+            <div class="card">
+                <p>Open Tickets</p>
+                <div class="number" id="openTickets">--</div>
+            </div>
+
+            <div class="card">
+                <p>Critical Tickets</p>
+                <div class="number" id="criticalTickets">--</div>
+            </div>
+
+            <div class="card">
+                <p>Resolution Rate</p>
+                <div class="number" id="resolutionRate">--</div>
+            </div>
+
+        </div>
+
+        <section class="section card">
+            <h2>System Overview</h2>
+            <p id="systemMessage">Loading dashboard information...</p>
+            <p id="errorMessage" class="error"></p>
+        </section>
+
+        <section class="section card">
+            <h2>Recent Tickets</h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="ticketTable">
+                        <tr>
+                            <td colspan="4">Loading tickets...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script type="module" src="/src/pages/dashboard.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+
+[
+  {
+    "id": 1,
+    "problem": "Laptop is not turning on",
+    "category": "Hardware",
+    "solution": "Check the power cable and charging adapter. Hold the power button for 15 seconds and restart the laptop. If it still does not turn on, contact Hardware Support."
+  },
+  {
+    "id": 2,
+    "problem": "Laptop screen is broken or damaged",
+    "category": "Hardware",
+    "solution": "Do not press or attempt to repair the damaged display. Contact Hardware Support for screen inspection and replacement."
+  },
+  {
+    "id": 3,
+    "problem": "Computer is running slowly",
+    "category": "Hardware",
+    "solution": "Restart the computer, close unnecessary applications, and check available storage and memory usage."
+  },
+  {
+    "id": 4,
+    "problem": "Software application keeps crashing",
+    "category": "Software",
+    "solution": "Restart the application, check for available updates, and reinstall it if the issue continues."
+  },
+  {
+    "id": 5,
+    "problem": "College portal is not opening",
+    "category": "Software",
+    "solution": "Check the internet connection, clear browser cache, and try another browser. If multiple users are affected, escalate to Software Support."
+  },
+  {
+    "id": 6,
+    "problem": "Unable to connect to WiFi",
+    "category": "Network",
+    "solution": "Restart WiFi, verify network credentials, and reconnect. If multiple users are affected, escalate to Network Operations."
+  },
+  {
+    "id": 7,
+    "problem": "Internet connection is very slow",
+    "category": "Network",
+    "solution": "Restart the router, check network connectivity, and report persistent network performance issues to Network Operations."
+  },
+  {
+    "id": 8,
+    "problem": "Forgot password or cannot login",
+    "category": "Account / Access",
+    "solution": "Use the official password reset process. If the account remains locked, contact the IT Access Team."
+  },
+  {
+    "id": 9,
+    "problem": "Database query is failing",
+    "category": "Database",
+    "solution": "Check database connectivity, query syntax, and server availability. Escalate persistent failures to Database Administration."
+  },
+  {
+    "id": 10,
+    "problem": "Application permission or access denied",
+    "category": "Account / Access",
+    "solution": "Verify the user's assigned permissions and request access approval from the responsible administrator."
+  }
+]

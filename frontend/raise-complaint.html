@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntelliDesk | Raise Complaint</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #080b1a;
+            color: white;
+        }
+
+        .sidebar {
+            position: fixed;
+            width: 240px;
+            height: 100vh;
+            padding: 30px 20px;
+            background: #10152a;
+            border-right: 1px solid #252b45;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: #a78bfa;
+            margin-bottom: 45px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 15px;
+            margin-bottom: 10px;
+            color: #a1a1aa;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #29204b;
+            color: #c4b5fd;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #a1a1aa;
+            margin-bottom: 30px;
+        }
+
+        .form-card {
+            max-width: 850px;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 16px;
+            background: #11172d;
+            color: white;
+            border: 1px solid #343b5c;
+            border-radius: 10px;
+            font-size: 15px;
+            resize: vertical;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #8b5cf6;
+        }
+
+        .hint {
+            color: #9298ad;
+            font-size: 13px;
+            margin: 10px 0 25px;
+        }
+
+        button {
+            padding: 14px 25px;
+            background: linear-gradient(90deg, #7c3aed, #06b6d4);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 20px;
+            color: #f87171;
+        }
+
+        .result {
+            display: none;
+            max-width: 850px;
+            margin-top: 25px;
+            padding: 25px;
+            background: #11172d;
+            border: 1px solid #343b5c;
+            border-radius: 15px;
+        }
+
+        .result h2 {
+            color: #a78bfa;
+        }
+
+        .result-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #29314d;
+            overflow-wrap: anywhere;
+        }
+
+        .result-item strong {
+            color: #c4b5fd;
+        }
+
+        .ticket-id {
+            color: #67e8f9;
+            font-weight: bold;
+        }
+
+        .solutions {
+            margin-top: 20px;
+        }
+
+        .solution {
+            padding: 12px;
+            margin-top: 10px;
+            background: #1b2440;
+            border-radius: 9px;
+        }
+
+        @media(max-width: 700px) {
+    .sidebar {
+        display: flex;
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 15px;
+        flex-direction: column;
+        border-right: none;
+        border-bottom: 1px solid #252b45;
+    }
+
+    .logo {
+        margin-bottom: 15px;
+    }
+
+    .nav-item {
+        padding: 12px;
+        margin-bottom: 5px;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+        width: 100%;
+    }
+
+    .form-card {
+        padding: 20px;
+        width: 100%;
+    }
+
+    .result {
+        width: 100%;
+        padding: 18px;
+    }
+
+    textarea {
+        min-height: 160px;
+    }
+
+    button {
+        max-width: 100%;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">IntelliDesk</div>
+
+        <a href="/raise-complaint.html" class="nav-item active">Raise Complaint</a>
+        <a href="/dashboard.html" class="nav-item">Dashboard</a>
+        <a href="/tickets.html" class="nav-item">Tickets</a>
+        <a href="/incidents.html" class="nav-item">Incidents</a>
+        <a href="/feedback.html" class="nav-item">Feedback</a>
+        <a href="/analytics.html" class="nav-item">Analytics</a>
+    </aside>
+
+    <main class="main">
+
+        <h1>Raise a Complaint</h1>
+
+        <p class="subtitle">
+            Describe your technical issue. IntelliDesk will analyze it and create a support ticket.
+        </p>
+
+        <section class="form-card">
+
+            <form id="complaintForm">
+
+                <label for="complaint">Describe your problem</label>
+
+                <textarea
+                    id="complaint"
+                    placeholder="Example: The college portal has been down since morning. Multiple students cannot access their accounts or submit assignments."
+                    minlength="5"
+                    maxlength="5000"
+                    required
+                ></textarea>
+
+                <p class="hint">
+                    Provide details such as what happened, when it started,
+                    and how many people are affected.
+                </p>
+
+                <button type="submit" id="submitButton">
+                    Submit Complaint
+                </button>
+
+                <p id="message" class="message"></p>
+
+            </form>
+
+        </section>
+
+        <section id="result" class="result">
+            <h2>Complaint Submitted Successfully!</h2>
+
+            <div class="result-item">
+                <strong>Ticket ID:</strong>
+                <span id="ticketId" class="ticket-id"></span>
+            </div>
+
+            <div class="result-item">
+                <strong>Category:</strong>
+                <span id="category"></span>
+            </div>
+
+            <div class="result-item">
+                <strong>Priority:</strong>
+                <span id="priority"></span>
+            </div>
+
+            <div class="result-item">
+                <strong>Assigned Team:</strong>
+                <span id="team"></span>
+            </div>
+
+            <div class="result-item">
+                <strong>AI Summary:</strong>
+                <span id="summary"></span>
+            </div>
+
+            <div class="result-item">
+                <strong>AI Status:</strong>
+                <span id="geminiStatus"></span>
+            </div>
+
+            <div class="solutions">
+                <h3>Recommended Solutions</h3>
+                <div id="solutionList">No recommendations available.</div>
+            </div>
+
+            <button type="button" id="newComplaintButton" style="margin-top:20px">
+                Raise Another Complaint
+            </button>
+        </section>
+
+    </main>
+
+    <script type="module" src="/src/pages/raise-complaint.js"></script>
+
+</body>
+</html>
